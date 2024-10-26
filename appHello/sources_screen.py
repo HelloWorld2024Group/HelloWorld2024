@@ -1,19 +1,13 @@
 import pygame
 from app_settings import *
+from assign_images import *
 import sys
 import math
 
-import pygame
-from app_settings import *
-import sys
 
 
 next_button = pygame.Rect(600, 700, 140, 30)
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
-
-news_sources = ["Source 1", "Source 2", "Source 3", "Source 4", "Source 5",
-                    "Source 6", "Source 7", "Source 8", "Source 9", "Source 10",
-                    "Source 11", "Source 12", "Source 13", "Source 14"]
 
 
 SQUARE_SIDE = 20
@@ -21,11 +15,20 @@ MARGIN = 50
 start_x = 100
 start_y = 180
 
+#split data in two columns
+mid_index = len(sources_list) // 2
+column_1 = sources_list[:mid_index]
+column_2 = sources_list[mid_index:]
 
+#need to split images list
 
 def select_sources_screen():
     pygame.init()
     scroll_offset = 0
+
+
+    process_sources(file_path)
+
 
     sources = True
     while sources:
@@ -38,10 +41,12 @@ def select_sources_screen():
                     sources = False  # Exit the introduction screen
             elif event.type == pygame.MOUSEWHEEL:
                 scroll_offset += event.y * 20
- 
+
         #scrolling logic
 
-        content_height = len(news_sources) * (SQUARE_SIDE + MARGIN)
+        #process_sources(file_path)
+
+        content_height = len(sources_list) * (SQUARE_SIDE + MARGIN)
         max_offset = content_height - (SCREEN_SIZE - start_y)
         scroll_offset = max(-max_offset, min(0, scroll_offset))
 
@@ -51,22 +56,23 @@ def select_sources_screen():
         #Screen Title
         font = pygame.font.SysFont(None, 50)
         text = font.render("Choose your sources:", True, gold)
-        text_xy = (100, 100)
+        text_xy = (100, 80)
         screen.blit(text,text_xy)
 
         #boxes
-        for index, source in enumerate(news_sources):
+        for index, source in enumerate(sources_list):
             square_y = start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
             square_rect = pygame.Rect(start_x, square_y, SQUARE_SIDE, SQUARE_SIDE)
 
             #if -SQUARE_SIDE < square_y < SCREEN_SIZE:
-            if 120 < square_y < SCREEN_SIZE:
+            if 140 < square_y < SCREEN_SIZE:
 
                     # Draw each square
                     pygame.draw.rect(screen, gold, square_rect)
 
                     # Render text for each square
-                    source_text = font.render(source, True, white)
+                    source_font = pygame.font.SysFont(None, 30)
+                    source_text = source_font.render(source, True, white)
                     source_text_rect = source_text.get_rect()
                     source_text_rect.topleft = (150, square_y)
                     screen.blit(source_text, source_text_rect)

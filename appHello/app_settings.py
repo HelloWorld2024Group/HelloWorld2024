@@ -1,8 +1,10 @@
 import pygame
 import math
 
-
+file_path = "message.txt"
 app_title = "Hello World '24"
+
+sources_list = []
 
 SCREEN_SIZE = 800
 
