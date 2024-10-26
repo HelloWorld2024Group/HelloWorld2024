@@ -34,12 +34,10 @@ rss_links = {
 def scrape_news_from_feed(feed_url):
     articles = []
     feed = feedparser.parse(feed_url)
-    print(feed)
     for entry in feed.entries:
         try:
             # create a newspaper article object
             article = Article(entry.link)
-            print(entry.link)
             # download and parse the article
             article.download()
             article.parse()
