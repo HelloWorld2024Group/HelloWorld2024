@@ -1,3 +1,5 @@
 newspaper3k
 feedparser
 lxml_html_clean
+llama_index
+pandas

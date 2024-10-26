@@ -31,7 +31,7 @@ rss_links = {
     'guardian' : 'https://www.theguardian.com/world/rss',
 }
 
-def scrape_news_from_feed(feed_url):
+def scrape_news_from_feed(feed_url, source='unknown'):
     articles = []
     feed = feedparser.parse(feed_url)
     for entry in feed.entries:
@@ -43,6 +43,7 @@ def scrape_news_from_feed(feed_url):
             article.parse()
             # extract relevant information
             articles.append({
+                'source': source,
                 'title': article.title,
                 'author': article.authors,
                 'publish_date': article.publish_date,
@@ -55,7 +56,7 @@ def scrape_news_from_feed(feed_url):
     return articles
 
 def scrape_news_from_source(source):
-    return scrape_news_from_feed(rss_links[source])
+    return scrape_news_from_feed(rss_links[source], source)
 
 # articles = scrape_news_from_source('guardian')
 
