@@ -1,4 +1,3 @@
-import Fetcher
 import transformers
 from sentence_transformers import SentenceTransformer
 from numpy import dot
@@ -18,7 +17,8 @@ def return_article_dict(articles):
 
     #stores a list of articles in a dictionary
     for i in range(0, len(articles)):
-        article_dict["article{}".format(i)] = articles[i]["content"]
+        article_dict["article{}".format(i)] = articles[i]
+
     return article_dict
 
 
@@ -44,27 +44,10 @@ def get_summaries(a):
         sum_dict[header] = topic
     return sum_dict
 
-def summarizes_articles(user_choices):
-    #scrapes articles
-    articles = []
-    for source, url in Fetcher.rss_links.items():
-        if source in user_choices:
-            feed = Fetcher.feedparser.parse(url)
-            for entry in feed.entries:
-                try:
-                    # create a newspaper article object
-                    article = Article(entry.link)
-                    # download and parse the article
-                    article.download()
-                    article.parse()
-                    # extract relevant information
-                    articles.append({
-                        'content': article.text,
-                    })
-                except Exception as e:
-                    pass
 
+def summarizes_articles(articles):
     article_dict = return_article_dict(articles)
+
     #variables:
     #arbirtrary threshold for similarity
     threshold = 1.3
