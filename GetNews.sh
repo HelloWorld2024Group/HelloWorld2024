@@ -7,3 +7,5 @@ source NewsAppEnv/bin/activate
 read sources
 
 python GetNews.py $sources
+
+echo "$(<[json file])"
