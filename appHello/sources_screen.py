@@ -5,7 +5,7 @@ from assign_images import *
 import sys
 
 
-next_button = pygame.Rect(600, 80, 140, 30)
+next_button = pygame.Rect(580, 80, 140, 30)
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
 
 # Load and scale images once at the beginning
@@ -61,7 +61,7 @@ def select_sources_screen():
         # Screen Title
         font = pygame.font.SysFont(None, 50)
         text = font.render("Choose your sources:", True, gold)
-        screen.blit(text, (100, 80))
+        screen.blit(text, (80, 80))
 
         # Display source text in columns
         display_sources(column_1, start_x_column_1 + 30, scroll_offset)
