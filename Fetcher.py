@@ -1,6 +1,5 @@
 import feedparser
 from newspaper import Article
-import jsonwriter
 import json
 
 

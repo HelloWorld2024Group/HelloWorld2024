@@ -6,9 +6,7 @@ source NewsAppEnv/bin/activate
 
 export TOGETHER_API_KEY="API_KEY"
 
-python ArticleDatabaseCreator.py
-
-python Summarizer.py
+python Fetcher.py
 
 touch log.txt
 

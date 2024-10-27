@@ -7,3 +7,5 @@ together
 pygame
 transformers
 scipy
+sentence_transformers
+numpy
