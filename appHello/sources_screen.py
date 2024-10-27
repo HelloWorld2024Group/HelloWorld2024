@@ -20,6 +20,7 @@ MARGIN = 50
 start_x_column_1 = 100
 start_x_column_2 = 450
 start_y = 180
+count = 0
 
 scroll_offset = 0
 
@@ -33,7 +34,7 @@ column_icons_2 = icons[:mid_index]
 
 
 def select_sources_screen():
-    global arrow_visible, arrow_position, scroll_offset
+    global count, scroll_offset
 
     scroll_offset = 0
 
@@ -48,9 +49,9 @@ def select_sources_screen():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 handle_source_click(event, column_1, start_x_column_1, spacing - 25)
                 handle_source_click(event, column_2, start_x_column_2 + 10, spacing - 2)
-
-                if next_button.collidepoint(event.pos):
-                    sources = False
+                if count >= 3:
+                    if next_button.collidepoint(event.pos):
+                        sources = False
             elif event.type == pygame.MOUSEWHEEL:
                 scroll_offset += event.y * 20
 
@@ -117,12 +118,15 @@ def display_images(scroll_offset):
 
 
 def handle_source_click(event, column, start_x, spacing):
+    global count
     #woking here to see if can fix seletcing 3 or more news outlets
     for index, source in enumerate(column):
         square_y = start_y + index * spacing
         button_rect = pygame.Rect(start_x - 20, square_y, 250, 40)  # Same size as in display_categories
         if button_rect.collidepoint(event.pos):
             print(f"Clicked on: {source}")
+            count += 1
+            print(count)
 
             #if 3 different inputs, allow to move on
 
