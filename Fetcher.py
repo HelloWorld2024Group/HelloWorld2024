@@ -1,5 +1,8 @@
 import feedparser
 from newspaper import Article
+import jsonwriter
+import json
+
 
 rss_links = {
     'nytimes': 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
@@ -31,34 +34,33 @@ rss_links = {
     'guardian' : 'https://www.theguardian.com/world/rss',
 }
 
-def scrape_news_from_feed(user_choices, source='unknown'):
-    articles = []
+def scrape_news_from_feed(source='unknown'):
+    #scrapes articles
+    articles_content = {}
     for source, url in rss_links.items():
-        if source in user_choices:
-            feed = feedparser.parse(url)
-            for entry in feed.entries:
-                try:
-                    # create a newspaper article object
-                    article = Article(entry.link)
-                    # download and parse the article
-                    article.download()
-                    article.parse()
-                    # extract relevant information
-                    articles.append({
-                        'source': source,
-                        'title': article.title,
-                        'author': article.authors,
-                        'publish_date': article.publish_date,
-                        'content': article.text,
-                        'images' : article.images,
-                        'url': article.url
-                    })
-                except Exception as e:
-                    pass
-    return articles
+        print(url)
+        feed = feedparser.parse(url)
+        for entry in feed.entries:
+            try:
+                # create a newspaper article object
+                article = Article(entry.link)
+                # download and parse the article
+                article.download()
+                article.parse()
+                # extract relevant information
+                articles_content[source] = {'content': article.text}
+            except Exception as e:
+                pass
+    
+    # Writing to a JSON file
+    data = articles_content
+    with open("all_sources_content.json", "w") as file:
+        json.dump(data, file)
+    return data
 
-def scrape_news_from_source(source):
-    return scrape_news_from_feed(rss_links[source], source)
+#produces a dictionary with sources as keys and content as values
+article_contents = scrape_news_from_feed()
+
 
 # articles = scrape_news_from_source('guardian')
 
