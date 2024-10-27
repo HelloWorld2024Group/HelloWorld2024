@@ -1,23 +1,21 @@
-import pygame
-import math
+from app_settings import *
 
-file_path = "message.txt"
-arrow = "images/arrow.png"
+def process_sources(file_path):
 
-app_title = "Hello World '24"
+    # Open and read the file
+    with open(file_path, "r") as file:
+        for line in file:
+            parts = line.split(":")
+            if parts:
+                processed_part = parts[0].replace("'", "").strip()
+                sources_list.append(processed_part)
 
-sources_list = []
+    return sources_list
 
-SCREEN_SIZE = 800
+# Example usage
+result = process_sources(file_path)
+print(result)
 
-black = (0,0,0)
-white = (255, 255, 255)
-gold = (249, 216, 73)
-red = (255,0,255)
-
-light_blue = (151, 204, 232)
-
-screen = pygame.display.set_mode((800, 800))
 
 icon_names_list = [
     "images/nytimes.png","images/cnn.png","images/bbc.png","images/fox.png","images/washingtonpost.png",
