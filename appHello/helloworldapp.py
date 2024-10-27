@@ -3,8 +3,6 @@ import sys
 from introscreen import *
 from sources_screen import *
 from news_categories import *
-#from test import *
-
 
 
 def main():

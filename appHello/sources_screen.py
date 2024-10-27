@@ -55,12 +55,12 @@ def select_sources_screen():
         max_offset = max_height - (SCREEN_SIZE - start_y)
         scroll_offset = max(-max_offset, min(0, scroll_offset))
 
-        screen.fill(light_blue)
+        screen.fill("midnightblue")
         pygame.display.set_caption(app_title)
 
         # Screen Title
         font = pygame.font.SysFont(None, 50)
-        text = font.render("Choose your sources:", True, gold)
+        text = font.render("Choose your sources:", True, "silver")
         screen.blit(text, (80, 80))
 
         # Display source text in columns
@@ -71,7 +71,7 @@ def select_sources_screen():
         display_images(scroll_offset)
 
         # Draw 'Next' button
-        pygame.draw.rect(screen, gold, next_button)
+        pygame.draw.rect(screen, "silver", next_button)
         next_font = pygame.font.SysFont(None, 30)
         next_text = next_font.render("Next", True, white)
         next_text_rect = next_text.get_rect(center=next_button.center)

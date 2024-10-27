@@ -40,12 +40,12 @@ def categories():
 
         # Scroll boundaries logic
 
-        screen.fill(light_blue)
+        screen.fill("midnightblue")
         pygame.display.set_caption(app_title)
 
         # Screen texts
         font = pygame.font.SysFont(None, 50)
-        text = font.render("Select a category:", True, gold)
+        text = font.render("Select a category:", True, "silver")
         screen.blit(text, (80, 80))
 
         spacing = (800 - start_y) // (len(column_1) - 1) if len(column_1) > 1 else 0
@@ -56,7 +56,7 @@ def categories():
 
 
         # Draw 'Next' button
-        pygame.draw.rect(screen, gold, next_button)
+        pygame.draw.rect(screen, "silver", next_button)
         next_font = pygame.font.SysFont(None, 30)
         next_text = next_font.render("Next", True, white)
         next_text_rect = next_text.get_rect(center=next_button.center)
@@ -70,7 +70,7 @@ def display_categories(column, start_x, spacing):
         if 140 < square_y < SCREEN_SIZE:
 
             button_rect = pygame.Rect(start_x - 20, square_y, 280, 80)  # Adjust size as needed
-            pygame.draw.rect(screen, gold, button_rect)
+            pygame.draw.rect(screen, "silver", button_rect)
 
             source_font = pygame.font.SysFont(None, 30)
             source_text = source_font.render(source, True, white)

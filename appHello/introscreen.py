@@ -20,11 +20,11 @@ def show_intro_screen():
                 if start_button.collidepoint(event.pos):
                     intro = False  # Exit the introduction screen
 
-        screen.fill(light_blue)
+        screen.fill("midnightblue")
         pygame.display.set_caption(app_title)
 
         # write start button
-        pygame.draw.rect(screen, gold, start_button)
+        pygame.draw.rect(screen, "silver", start_button)
 
         # Hello world text
         font = pygame.font.SysFont(None, 48)
