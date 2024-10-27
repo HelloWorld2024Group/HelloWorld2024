@@ -65,7 +65,7 @@ def summarizes_articles(articles):
 
     # Create clusters by cutting the dendrogram at a certain threshold (t)
     clusters = fcluster(Z, t=threshold, criterion='distance')
-    
+
     #creates a dictionary with numbered articles and their clustered
     cluster_dict = {}
     for i in range(0,len(clusters)):
@@ -97,6 +97,6 @@ def summarizes_articles(articles):
         articles_to_summarize.append("\t".join(one_topic_list))
 
     final_dict = get_summaries(articles_to_summarize)
-    
+
     return final_dict
     

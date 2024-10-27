@@ -34,11 +34,13 @@ rss_links = {
     'guardian' : 'https://www.theguardian.com/world/rss',
 }
 
+
 def scrape_news_from_feed(source='unknown'):
     #scrapes articles
     articles_content = {}
+    source_list = []
     for source, url in rss_links.items():
-        print(url)
+        articles_content[source] = []
         feed = feedparser.parse(url)
         for entry in feed.entries:
             try:
@@ -48,9 +50,11 @@ def scrape_news_from_feed(source='unknown'):
                 article.download()
                 article.parse()
                 # extract relevant information
-                articles_content[source] = {'content': article.text}
+                articles_content[source].append(article.text)
             except Exception as e:
                 pass
+
+
     
     # Writing to a JSON file
     data = articles_content
