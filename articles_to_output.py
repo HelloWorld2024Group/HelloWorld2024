@@ -10,6 +10,18 @@ from scipy.cluster.hierarchy import fcluster
 import pandas as pd
 from together import Together
 
+
+def return_article_dict(url):
+    article_dict = {}
+    #scrapes articles
+    articles = Fetcher.scrape_news_from_feed(url)
+
+    #stores a list of articles in a dictionary
+    for i in range(0, len(articles)):
+        article_dict["article{}".format(i)] = articles[i]["content"]
+    return article_dict
+
+
 def get_summaries(a):
 
     client = Together()
@@ -32,18 +44,9 @@ def get_summaries(a):
         sum_dict[header] = topic
     return sum_dict
 
-def summarizes_articles(feed_url):
-    #scrapes articles
-    articles = Fetcher.scrape_news_from_feed(feed_url)
-
-    #stores a list of articles in a dictionary
-    article_dict = {}
-    for i in range(0, len(articles)):
-        article_dict["article{}".format(i)] = articles[i]["content"]
-
-
+def summarizes_articles(url):
+    article_dict = return_article_dict(url)
     #variables:
-
     #arbirtrary threshold for similarity
     threshold = 1.3
     #list of articles to be clustered
@@ -60,7 +63,7 @@ def summarizes_articles(feed_url):
 
     # Create clusters by cutting the dendrogram at a certain threshold (t)
     clusters = fcluster(Z, t=threshold, criterion='distance')
-
+    
     #creates a dictionary with numbered articles and their clustered
     cluster_dict = {}
     for i in range(0,len(clusters)):
