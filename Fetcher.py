@@ -31,28 +31,30 @@ rss_links = {
     'guardian' : 'https://www.theguardian.com/world/rss',
 }
 
-def scrape_news_from_feed(feed_url, source='unknown'):
+def scrape_news_from_feed(user_choices, source='unknown'):
     articles = []
-    feed = feedparser.parse(feed_url)
-    for entry in feed.entries:
-        try:
-            # create a newspaper article object
-            article = Article(entry.link)
-            # download and parse the article
-            article.download()
-            article.parse()
-            # extract relevant information
-            articles.append({
-                'source': source,
-                'title': article.title,
-                'author': article.authors,
-                'publish_date': article.publish_date,
-                'content': article.text,
-                'images' : article.images,
-                'url': article.url
-            })
-        except Exception as e:
-            pass
+    for source, url in rss_links.items():
+        if source in user_choices:
+            feed = feedparser.parse(url)
+            for entry in feed.entries:
+                try:
+                    # create a newspaper article object
+                    article = Article(entry.link)
+                    # download and parse the article
+                    article.download()
+                    article.parse()
+                    # extract relevant information
+                    articles.append({
+                        'source': source,
+                        'title': article.title,
+                        'author': article.authors,
+                        'publish_date': article.publish_date,
+                        'content': article.text,
+                        'images' : article.images,
+                        'url': article.url
+                    })
+                except Exception as e:
+                    pass
     return articles
 
 def scrape_news_from_source(source):
