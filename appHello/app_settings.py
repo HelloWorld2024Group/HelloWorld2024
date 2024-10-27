@@ -2,6 +2,8 @@ import pygame
 import math
 
 file_path = "message.txt"
+arrow = "images/arrow.png"
+
 app_title = "Hello World '24"
 
 sources_list = []

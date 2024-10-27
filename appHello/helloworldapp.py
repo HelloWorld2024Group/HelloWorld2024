@@ -2,6 +2,8 @@ import pygame
 import sys
 from introscreen import *
 from sources_screen import *
+from news_categories import *
+#from test import *
 
 
 
@@ -11,6 +13,8 @@ def main():
     show_intro_screen()
 
     select_sources_screen()
+
+    categories()
 
     pygame.quit()
     sys.exit()

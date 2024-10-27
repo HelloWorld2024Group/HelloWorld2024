@@ -1,17 +1,18 @@
 import pygame
 from app_settings import *
 from assign_images import *
-import sys
-import math
 
-# Initialize Pygame
-#pygame.init()
+import sys
+
 
 next_button = pygame.Rect(600, 80, 140, 30)
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
 
 # Load and scale images once at the beginning
-icons = [pygame.transform.scale(pygame.image.load(filename), (60, 60)) for filename in icon_names_list]
+icons = [
+    pygame.transform.scale(pygame.image.load(filename), (60, 60))
+    for filename in icon_names_list
+]
 
 SQUARE_SIDE = 20
 MARGIN = 50
@@ -29,7 +30,10 @@ column_2 = sources_list[:mid_index]
 column_icons_1 = icons[mid_index:]
 column_icons_2 = icons[:mid_index]
 
+
 def select_sources_screen():
+    global arrow_visible, arrow_position, scroll_offset
+
     scroll_offset = 0
 
     process_sources(file_path)
@@ -75,6 +79,7 @@ def select_sources_screen():
 
         pygame.display.flip()
 
+
 def display_sources(column, start_x, scroll_offset):
     for index, source in enumerate(column):
         square_y = 20 + start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
@@ -85,15 +90,18 @@ def display_sources(column, start_x, scroll_offset):
             source_text_rect.topleft = (start_x + 10, square_y)
             screen.blit(source_text, source_text_rect)
 
+
 def display_images(scroll_offset):
     # Display images in the first column
     for index, image in enumerate(column_icons_1):
         image_y = start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
         if 140 < image_y < SCREEN_SIZE:
+            image_rect = image.get_rect(topleft=(start_x_column_1 - 30, image_y))
             screen.blit(image, (start_x_column_1 - 30, image_y))
 
     # Display images in the second column
     for index, image in enumerate(column_icons_2):
         image_y = start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
         if 140 < image_y < SCREEN_SIZE:
+            image_rect = image.get_rect(topleft=(start_x_column_2 - 30, image_y))
             screen.blit(image, (start_x_column_2 - 30, image_y))

@@ -1,8 +1,4 @@
 from app_settings import *
-import sys
-
-#sources_list = []
-
 
 def process_sources(file_path):
 
