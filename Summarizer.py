@@ -1,5 +1,6 @@
 import pandas as pd
 from together import Together
+import time
 
 def format_article(row):
     return f"source={str(row['source'])}, title={row['title']}, date={row['publish_date']}, authors={row['author']}, content={row['content']}, url={row['url']}"
@@ -28,4 +29,7 @@ def get_summaries(output_file):
     summariesDF.to_csv(output_file, index=False)
 
 output_file = 'summaries.csv'
+start = time.time()
 get_summaries(output_file)
+
+print(f"Summarized in {time.time() - start} seconds")
