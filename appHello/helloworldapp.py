@@ -15,8 +15,6 @@ def main():
 
     categories()
 
-    #write_article(news_item)
-
     pygame.quit()
     sys.exit()
 
