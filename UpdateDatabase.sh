@@ -4,6 +4,14 @@ cd HelloWorld2024
 
 source NewsAppEnv/bin/activate
 
+export TOGETHER_API_KEY="API_KEY"
+
 python ArticleDatabaseCreator.py
 
 python Summarizer.py
+
+touch log.txt
+
+timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+
+echo "Database updated at $timestamp" >> log.txt
