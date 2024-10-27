@@ -49,7 +49,6 @@ def summarizes_articles(user_choices):
     articles = []
     for source, url in Fetcher.rss_links.items():
         if source in user_choices:
-            print(source)
             feed = Fetcher.feedparser.parse(url)
             for entry in feed.entries:
                 try:
@@ -64,7 +63,6 @@ def summarizes_articles(user_choices):
                     })
                 except Exception as e:
                     pass
-    print(articles)
 
     article_dict = return_article_dict(articles)
     #variables:
@@ -72,8 +70,6 @@ def summarizes_articles(user_choices):
     threshold = 1.3
     #list of articles to be clustered
     list_of_articles = list(article_dict.values())
-
-    print(list_of_articles)
 
     #sentence transformer model
     model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
@@ -87,8 +83,6 @@ def summarizes_articles(user_choices):
     # Create clusters by cutting the dendrogram at a certain threshold (t)
     clusters = fcluster(Z, t=threshold, criterion='distance')
     
-    print(clusters)
-
     #creates a dictionary with numbered articles and their clustered
     cluster_dict = {}
     for i in range(0,len(clusters)):
@@ -111,8 +105,6 @@ def summarizes_articles(user_choices):
         if len(v) > 1:
             filtered_grouped_list.append(v)
 
-    print(filtered_grouped_list)
-
     #creates list of articles where all articles of same topic are concatonated into one string
     articles_to_summarize = []
     for v in filtered_grouped_list:
@@ -121,11 +113,7 @@ def summarizes_articles(user_choices):
             one_topic_list.append((article_dict[art]))
         articles_to_summarize.append("\t".join(one_topic_list))
 
-    print(articles_to_summarize)
-
     final_dict = get_summaries(articles_to_summarize)
-
-    print(final_dict)
     
     return final_dict
     
