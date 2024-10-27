@@ -1,6 +1,8 @@
 import pygame
 from app_settings import *
 from assign_images import *
+from example_dictionaries import *
+from article import *
 
 import sys
 
@@ -24,19 +26,19 @@ column_2 = categories_list[mid_index:]
 
 def categories():
 
-    categories = True
-    while categories:
+    running = True
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                handle_category_click(event, column_1, start_x_column_1, spacing - 25, dictionaries_list, running)
+                handle_category_click(event, column_2, start_x_column_2 + 10, spacing - 2, dictionaries_list, running)
+
                 if next_button.collidepoint(event.pos):
-                    categories = False
+                    running = False
 
-
-                handle_category_click(event, column_1, start_x_column_1, spacing - 25)
-                handle_category_click(event, column_2, start_x_column_2 + 10, spacing - 25)
 
         # Scroll boundaries logic
 
@@ -49,7 +51,6 @@ def categories():
         screen.blit(text, (80, 80))
 
         spacing = (800 - start_y) // (len(column_1) - 1) if len(column_1) > 1 else 0
-
 
         display_categories(column_1, start_x_column_1, spacing - 25)
         display_categories(column_2, start_x_column_2 + 10, spacing - 25)
@@ -81,9 +82,24 @@ def display_categories(column, start_x, spacing):
             screen.blit(source_text, source_text_rect)
 
 
-def handle_category_click(event, column, start_x, spacing):
+"""def handle_category_click(event, column, start_x, spacing):
     for index, source in enumerate(column):
         square_y = start_y + index * spacing
         button_rect = pygame.Rect(start_x - 20, square_y, 250, 40)  # Same size as in display_categories
         if button_rect.collidepoint(event.pos):
-            print(f"Clicked on: {source}") #change
+            print(f"Clicked on: {source}") #change """
+
+def handle_category_click(event, column, start_x, spacing, dictionaries_list, running):
+
+    for index, source in enumerate(column):
+        square_y = start_y + index * spacing
+        button_rect = pygame.Rect(start_x - 20, square_y, 250, 40)  # Same size as in display_categories
+        if button_rect.collidepoint(event.pos):
+            # Fetch the corresponding news item based on the clicked index
+            news_item = dictionaries_list[index]
+            #print(f"Clicked on: {source}")
+
+            # Display the article on the screen
+            write_article(news_item)
+            return False
+    return running

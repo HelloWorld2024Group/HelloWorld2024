@@ -3,6 +3,7 @@ import sys
 from introscreen import *
 from sources_screen import *
 from news_categories import *
+from article import *
 
 
 def main():
@@ -13,6 +14,8 @@ def main():
     select_sources_screen()
 
     categories()
+
+    #write_article(news_item)
 
     pygame.quit()
     sys.exit()

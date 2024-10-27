@@ -1,6 +1,7 @@
 import pygame
 from app_settings import *
 from assign_images import *
+from news_categories import *
 
 import sys
 
@@ -45,6 +46,9 @@ def select_sources_screen():
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                handle_source_click(event, column_1, start_x_column_1, spacing - 25)
+                handle_source_click(event, column_2, start_x_column_2 + 10, spacing - 2)
+
                 if next_button.collidepoint(event.pos):
                     sources = False
             elif event.type == pygame.MOUSEWHEEL:
@@ -77,8 +81,13 @@ def select_sources_screen():
         next_text_rect = next_text.get_rect(center=next_button.center)
         screen.blit(next_text, next_text_rect)
 
-        pygame.display.flip()
+        spacing = (800 - start_y) // (len(column_1) - 1) if len(column_1) > 1 else 0
 
+
+
+
+
+        pygame.display.flip()
 
 def display_sources(column, start_x, scroll_offset):
     for index, source in enumerate(column):
@@ -105,3 +114,15 @@ def display_images(scroll_offset):
         if 140 < image_y < SCREEN_SIZE:
             image_rect = image.get_rect(topleft=(start_x_column_2 - 30, image_y))
             screen.blit(image, (start_x_column_2 - 30, image_y))
+
+
+def handle_source_click(event, column, start_x, spacing):
+    #woking here to see if can fix seletcing 3 or more news outlets
+    for index, source in enumerate(column):
+        square_y = start_y + index * spacing
+        button_rect = pygame.Rect(start_x - 20, square_y, 250, 40)  # Same size as in display_categories
+        if button_rect.collidepoint(event.pos):
+            print(f"Clicked on: {source}")
+
+            #if 3 different inputs, allow to move on
+
