@@ -1,4 +1,3 @@
-import Fetcher
 import transformers
 from sentence_transformers import SentenceTransformer
 from numpy import dot
@@ -18,7 +17,8 @@ def return_article_dict(articles):
 
     #stores a list of articles in a dictionary
     for i in range(0, len(articles)):
-        article_dict["article{}".format(i)] = articles[i]["content"]
+        article_dict["article{}".format(i)] = articles[i]
+
     return article_dict
 
 
@@ -44,36 +44,15 @@ def get_summaries(a):
         sum_dict[header] = topic
     return sum_dict
 
-def summarizes_articles(user_choices):
-    #scrapes articles
-    articles = []
-    for source, url in Fetcher.rss_links.items():
-        if source in user_choices:
-            print(source)
-            feed = Fetcher.feedparser.parse(url)
-            for entry in feed.entries:
-                try:
-                    # create a newspaper article object
-                    article = Article(entry.link)
-                    # download and parse the article
-                    article.download()
-                    article.parse()
-                    # extract relevant information
-                    articles.append({
-                        'content': article.text,
-                    })
-                except Exception as e:
-                    pass
-    print(articles)
 
+def summarizes_articles(articles):
     article_dict = return_article_dict(articles)
+
     #variables:
     #arbirtrary threshold for similarity
     threshold = 1.3
     #list of articles to be clustered
     list_of_articles = list(article_dict.values())
-
-    print(list_of_articles)
 
     #sentence transformer model
     model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
@@ -87,8 +66,6 @@ def summarizes_articles(user_choices):
     # Create clusters by cutting the dendrogram at a certain threshold (t)
     clusters = fcluster(Z, t=threshold, criterion='distance')
     
-    print(clusters)
-
     #creates a dictionary with numbered articles and their clustered
     cluster_dict = {}
     for i in range(0,len(clusters)):
@@ -111,8 +88,6 @@ def summarizes_articles(user_choices):
         if len(v) > 1:
             filtered_grouped_list.append(v)
 
-    print(filtered_grouped_list)
-
     #creates list of articles where all articles of same topic are concatonated into one string
     articles_to_summarize = []
     for v in filtered_grouped_list:
@@ -121,11 +96,7 @@ def summarizes_articles(user_choices):
             one_topic_list.append((article_dict[art]))
         articles_to_summarize.append("\t".join(one_topic_list))
 
-    print(articles_to_summarize)
-
     final_dict = get_summaries(articles_to_summarize)
-
-    print(final_dict)
     
     return final_dict
     
