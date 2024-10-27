@@ -16,20 +16,16 @@ def process_sources(file_path):
 
     return sources_list
 
-
-#infinite scroll repeative forever
-
-
 # Example usage
 result = process_sources(file_path)
 print(result)
 
 
-icon = [
-    "nytimes.png","cnn.png","bbc.png","fox.png","washingtonpost.png",
-    "abcnews.png","nbcnews.png", "cbsnews.png","buzzfeed.png",
-    "vice.png","slate.png","vox.png","salon.png", "theintercept.png",
-    "theatlantic.png","thenewyorker.png","time.png","businessinsider.png",
-    "fortune.png","cnbc.png","latimes.png","democracynow.png","commondreams.png",
-    "aljazeera.png","propublica.png","novaramedia.png","guardian.png",
+icon_names_list = [
+    "images/nytimes.png","images/cnn.png","images/bbc.png","images/fox.png","images/washingtonpost.png",
+    "images/abcnews.png","images/nbcnews.png", "images/cbsnews.png","images/buzzfeed.png",
+    "images/vice.png","images/slate.png","images/vox.png","images/salon.png", "images/theintercept.png",
+    "images/theatlantic.png","images/thenewyorker.png","images/time.png","images/businessinsider.png",
+    "images/fortune.png","images/cnbc.png","images/latimes.png","images/democracynow.png","images/commondreams.png",
+    "images/aljazeera.png","images/propublica.png","images/novaramedia.png","images/guardian.png",
 ]

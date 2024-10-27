@@ -4,28 +4,32 @@ from assign_images import *
 import sys
 import math
 
+# Initialize Pygame
+#pygame.init()
 
 next_button = pygame.Rect(600, 700, 140, 30)
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
 
+# Load and scale images once at the beginning
+icons = [pygame.transform.scale(pygame.image.load(filename), (30, 30)) for filename in icon_names_list]
 
 SQUARE_SIDE = 20
 MARGIN = 50
-# start_x = 100
 start_x_column_1 = 100
 start_x_column_2 = 400
 start_y = 180
 
-# split data in two columns
+scroll_offset = 0
+
+# Split data and images into two columns
 mid_index = len(sources_list) // 2
 column_1 = sources_list[mid_index:]
 column_2 = sources_list[:mid_index]
 
-# need to split images list
-
+column_icons_1 = icons[mid_index:]
+column_icons_2 = icons[:mid_index]
 
 def select_sources_screen():
-    pygame.init()
     scroll_offset = 0
 
     process_sources(file_path)
@@ -42,8 +46,7 @@ def select_sources_screen():
             elif event.type == pygame.MOUSEWHEEL:
                 scroll_offset += event.y * 20
 
-        # scrolling logic
-        #content_height = len(sources_list) * (SQUARE_SIDE + MARGIN)
+        # Scroll boundaries logic
         max_height = max(len(column_1), len(column_2)) * (SQUARE_SIDE + MARGIN)
         max_offset = max_height - (SCREEN_SIZE - start_y)
         scroll_offset = max(-max_offset, min(0, scroll_offset))
@@ -54,62 +57,43 @@ def select_sources_screen():
         # Screen Title
         font = pygame.font.SysFont(None, 50)
         text = font.render("Choose your sources:", True, gold)
-        text_xy = (100, 80)
-        screen.blit(text, text_xy)
+        screen.blit(text, (100, 80))
 
-        # boxes
-        """for index, source in enumerate(sources_list):
-            square_y = start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
-            square_rect = pygame.Rect(start_x, square_y, SQUARE_SIDE, SQUARE_SIDE)
+        # Display source text in columns
+        display_sources(column_1, start_x_column_1, scroll_offset)
+        display_sources(column_2, start_x_column_2, scroll_offset)
 
-            if 140 < square_y < SCREEN_SIZE:
+        # Display images in two columns
+        display_images(scroll_offset)
 
-                # Draw each square
-                pygame.draw.rect(screen, gold, square_rect)
-
-                # Render text for each square
-                source_font = pygame.font.SysFont(None, 30)
-                source_text = source_font.render(source, True, white)
-                source_text_rect = source_text.get_rect()
-                source_text_rect.topleft = (150, square_y)
-                screen.blit(source_text, source_text_rect)"""
-
-        for index, source in enumerate (column_1):
-            square_y = start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
-            square_rect = pygame.Rect(start_x_column_1 - 20, square_y, SQUARE_SIDE, SQUARE_SIDE)
-
-            if 140 < square_y < SCREEN_SIZE:
-                pygame.draw.rect(screen, gold, square_rect)
-
-                source_font = pygame.font.SysFont(None, 30)
-                source_text = source_font.render(source, True, white)
-                source_text_rect = source_text.get_rect()
-                source_text_rect.topleft = (start_x_column_1 + 10, square_y)
-                screen.blit(source_text, source_text_rect)
-
-
-        for index, source in enumerate (column_2):
-            square_y = start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
-            square_rect = pygame.Rect(start_x_column_2 - 20, square_y, SQUARE_SIDE, SQUARE_SIDE)
-
-            if 140 < square_y < SCREEN_SIZE:
-                pygame.draw.rect(screen, gold, square_rect)
-
-                source_font = pygame.font.SysFont(None, 30)
-                source_text = source_font.render(source, True, white)
-                source_text_rect = source_text.get_rect()
-                source_text_rect.topleft = (start_x_column_2 + 10, square_y)
-                screen.blit(source_text, source_text_rect)
-
-
-        # next button
+        # Draw 'Next' button
         pygame.draw.rect(screen, gold, next_button)
-
         next_font = pygame.font.SysFont(None, 30)
-        next_text = next_font.render("Next", True, white)  # color letters
+        next_text = next_font.render("Next", True, white)
         next_text_rect = next_text.get_rect(center=next_button.center)
         screen.blit(next_text, next_text_rect)
 
         pygame.display.flip()
 
-        # only able to click on the button if selected 3 or 5 more news sources
+def display_sources(column, start_x, scroll_offset):
+    for index, source in enumerate(column):
+        square_y = start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
+        if 140 < square_y < SCREEN_SIZE:
+            source_font = pygame.font.SysFont(None, 30)
+            source_text = source_font.render(source, True, white)
+            source_text_rect = source_text.get_rect()
+            source_text_rect.topleft = (start_x + 10, square_y)
+            screen.blit(source_text, source_text_rect)
+
+def display_images(scroll_offset):
+    # Display images in the first column
+    for index, image in enumerate(column_icons_1):
+        image_y = start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
+        if 140 < image_y < SCREEN_SIZE:
+            screen.blit(image, (start_x_column_1 - 30, image_y))
+
+    # Display images in the second column
+    for index, image in enumerate(column_icons_2):
+        image_y = start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
+        if 140 < image_y < SCREEN_SIZE:
+            screen.blit(image, (start_x_column_2 - 30, image_y))
