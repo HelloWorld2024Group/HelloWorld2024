@@ -7,16 +7,16 @@ import math
 # Initialize Pygame
 #pygame.init()
 
-next_button = pygame.Rect(600, 700, 140, 30)
+next_button = pygame.Rect(600, 80, 140, 30)
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
 
 # Load and scale images once at the beginning
-icons = [pygame.transform.scale(pygame.image.load(filename), (30, 30)) for filename in icon_names_list]
+icons = [pygame.transform.scale(pygame.image.load(filename), (60, 60)) for filename in icon_names_list]
 
 SQUARE_SIDE = 20
 MARGIN = 50
 start_x_column_1 = 100
-start_x_column_2 = 400
+start_x_column_2 = 450
 start_y = 180
 
 scroll_offset = 0
@@ -60,8 +60,8 @@ def select_sources_screen():
         screen.blit(text, (100, 80))
 
         # Display source text in columns
-        display_sources(column_1, start_x_column_1, scroll_offset)
-        display_sources(column_2, start_x_column_2, scroll_offset)
+        display_sources(column_1, start_x_column_1 + 30, scroll_offset)
+        display_sources(column_2, start_x_column_2 + 30, scroll_offset)
 
         # Display images in two columns
         display_images(scroll_offset)
@@ -77,7 +77,7 @@ def select_sources_screen():
 
 def display_sources(column, start_x, scroll_offset):
     for index, source in enumerate(column):
-        square_y = start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
+        square_y = 20 + start_y + index * (SQUARE_SIDE + MARGIN) + scroll_offset
         if 140 < square_y < SCREEN_SIZE:
             source_font = pygame.font.SysFont(None, 30)
             source_text = source_font.render(source, True, white)
