@@ -3,3 +3,4 @@ feedparser
 lxml_html_clean
 llama_index
 pandas
+together
